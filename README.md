@@ -95,7 +95,7 @@ HAYOS is **free**. If it makes your writing better and you'd like to keep it gro
 0x383e17ef178f9fd8fe19213e4db8e5f712510d50
 ```
 
-<img src="assets/usdt-qr.png" width="180" alt="USDT donation QR">
+<img src="usdt-qr.png" width="180" alt="USDT donation QR">
 
 > ⚠️ Please send **only USDT on the Ethereum (ERC‑20) network** to this address.
 
