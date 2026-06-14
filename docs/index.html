@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>HAYOS — Free, Lightweight &amp; Beautiful Text Editor for Windows</title>
+<meta name="description" content="HAYOS is a free, lightweight and beautiful text editor for Windows. A neon sci-fi word processor — works offline, exports to Word, PDF &amp; Markdown, no account, no ads. Download free.">
+<meta name="keywords" content="free text editor, lightweight text editor, text editor for Windows, beautiful text editor, offline text editor, word processor, free download, HAYOS, notepad alternative, write, markdown editor">
+<meta name="author" content="Aram Tumanian">
+<meta name="theme-color" content="#04040a">
+<link rel="canonical" href="https://mvtender.github.io/HAYOS/">
+<link rel="icon" href="hayos-hs.jpg">
+
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="HAYOS — Free, Lightweight &amp; Beautiful Text Editor for Windows">
+<meta property="og:description" content="A neon sci-fi word processor for Windows. Free, lightweight, offline. Exports to Word, PDF &amp; Markdown. No account, no ads.">
+<meta property="og:url" content="https://mvtender.github.io/HAYOS/">
+<meta property="og:image" content="https://mvtender.github.io/HAYOS/hayos-hs.jpg">
+<meta property="og:site_name" content="HAYOS">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="HAYOS — Free, Lightweight &amp; Beautiful Text Editor for Windows">
+<meta name="twitter:description" content="A neon sci-fi word processor for Windows. Free, lightweight, offline.">
+<meta name="twitter:image" content="https://mvtender.github.io/HAYOS/hayos-hs.jpg">
+
+<!-- Structured data -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "HAYOS",
+  "applicationCategory": "BusinessApplication",
+  "applicationSubCategory": "Text Editor",
+  "operatingSystem": "Windows 10, Windows 11",
+  "softwareVersion": "2.0.1190",
+  "url": "https://mvtender.github.io/HAYOS/",
+  "downloadUrl": "https://github.com/MVTender/HAYOS/releases/latest",
+  "author": { "@type": "Person", "name": "Aram Tumanian" },
+  "description": "A free, lightweight and beautiful text editor for Windows. Neon sci-fi word processor — works offline, exports to Word, PDF and Markdown.",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+}
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Inter:wght@300;400;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
+
+<style>
+:root{
+  --bg:#04040a; --blue:#0060ff; --blue2:#3d8bff; --blue3:#0040cc;
+  --orange:#ff9900; --ok:#00ff88; --red:#ff5a3c;
+  --fg:rgba(226,238,255,.92); --fg2:rgba(170,190,225,.62); --fg3:rgba(150,175,215,.32);
+  --glass:rgba(8,15,32,.45); --line:rgba(61,139,255,.16); --line2:rgba(61,139,255,.4);
+  --glow:rgba(0,110,255,.55); --glow-soft:rgba(0,110,255,.28);
+  --ease:cubic-bezier(.16,1,.3,1);
+  --f-ui:'Orbitron',system-ui,sans-serif; --f:'Inter',system-ui,sans-serif; --f-mono:'JetBrains Mono',monospace;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--fg);font-family:var(--f);line-height:1.65;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+img{display:block;max-width:100%}
+::selection{background:rgba(0,96,255,.3)}
+::-webkit-scrollbar{width:9px}::-webkit-scrollbar-track{background:#04040a}::-webkit-scrollbar-thumb{background:var(--blue3);border-radius:5px}
+
+/* atmosphere */
+#bg{position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:
+   radial-gradient(ellipse 60% 50% at 50% 0%,rgba(0,80,255,.10),transparent 60%),
+   radial-gradient(ellipse 50% 40% at 85% 30%,rgba(255,60,10,.05),transparent 60%),
+   radial-gradient(ellipse 60% 50% at 15% 80%,rgba(0,96,255,.06),transparent 60%)}
+body::after{content:'';position:fixed;inset:0;z-index:1;pointer-events:none;
+  background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,80,255,.012) 3px,rgba(0,80,255,.012) 6px)}
+.wrap{position:relative;z-index:2}
+.con{max-width:1120px;margin:0 auto;padding:0 26px}
+
+/* nav */
+nav{position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;
+  height:60px;padding:0 26px;background:rgba(4,4,10,.72);backdrop-filter:blur(18px);
+  border-bottom:1px solid var(--line)}
+.brand{display:flex;align-items:center;gap:11px;font-family:var(--f-ui);font-weight:900;letter-spacing:.14em;font-size:1rem}
+.brand img{width:26px;height:26px;border-radius:5px;mix-blend-mode:screen;filter:drop-shadow(0 0 8px var(--glow))}
+.brand em{color:var(--blue2);font-style:normal}
+.nlinks{display:flex;gap:6px;align-items:center}
+.nlinks a{font-family:var(--f-ui);font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:var(--fg3);padding:8px 13px;border-radius:5px;transition:.2s}
+.nlinks a:hover{color:var(--fg);background:rgba(0,96,255,.07)}
+.nlinks a.cta{color:#fff;background:linear-gradient(135deg,var(--blue),var(--blue2));box-shadow:0 0 18px var(--glow-soft)}
+@media(max-width:720px){.nlinks a:not(.cta){display:none}}
+
+/* buttons */
+.btn{font-family:var(--f-ui);font-size:.72rem;font-weight:700;letter-spacing:.13em;text-transform:uppercase;
+  display:inline-flex;align-items:center;gap:10px;padding:15px 30px;border-radius:4px;cursor:pointer;border:1px solid transparent;transition:.28s var(--ease)}
+.btn-pri{color:#fff;background:linear-gradient(135deg,var(--blue),var(--blue2));box-shadow:0 0 30px var(--glow-soft),0 8px 26px rgba(0,0,0,.5)}
+.btn-pri:hover{transform:translateY(-2px);box-shadow:0 0 44px var(--glow),0 10px 30px rgba(0,0,0,.6)}
+.btn-sec{color:var(--orange);border-color:rgba(255,153,0,.4);background:rgba(255,153,0,.05)}
+.btn-sec:hover{border-color:var(--orange);box-shadow:0 0 26px rgba(255,153,0,.25);transform:translateY(-2px)}
+.btn svg{width:17px;height:17px}
+
+/* hero */
+section{position:relative;z-index:2;padding:96px 0}
+.hero{padding:70px 0 40px;text-align:center}
+.eyebrow{font-family:var(--f-ui);font-size:.56rem;letter-spacing:.34em;text-transform:uppercase;color:var(--blue2);
+  display:inline-flex;align-items:center;gap:10px;margin-bottom:22px;text-shadow:0 0 12px var(--glow-soft)}
+.eyebrow::before,.eyebrow::after{content:'';width:22px;height:1px;background:var(--blue2);box-shadow:0 0 6px var(--blue2)}
+.hero img.logo{width:118px;height:118px;margin:0 auto 26px;border-radius:14px;mix-blend-mode:screen;
+  filter:drop-shadow(0 0 26px var(--glow));animation:float 5s ease-in-out infinite}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
+h1{font-family:var(--f-ui);font-weight:900;text-transform:uppercase;font-size:clamp(2.6rem,7vw,5.2rem);letter-spacing:.02em;line-height:1;margin-bottom:18px}
+h1 .g{color:var(--blue2);text-shadow:0 0 26px var(--glow),0 0 60px var(--glow-soft)}
+.lead{font-size:clamp(1.05rem,2.4vw,1.4rem);color:var(--fg);max-width:640px;margin:0 auto 14px;font-weight:300}
+.sub{color:var(--fg2);max-width:560px;margin:0 auto 34px;font-size:1rem}
+.hbtns{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-bottom:16px}
+.meta{font-family:var(--f-ui);font-size:.5rem;letter-spacing:.18em;text-transform:uppercase;color:var(--fg3);display:flex;gap:16px;justify-content:center;flex-wrap:wrap;align-items:center}
+.meta b{color:var(--ok)}
+.dlbadge{margin-top:18px;height:22px;opacity:.9}
+
+/* editor mockup */
+.mock{max-width:880px;margin:54px auto 0;border-radius:10px;overflow:hidden;position:relative;
+  background:rgba(6,11,24,.6);backdrop-filter:blur(14px);border:1px solid var(--line2);
+  box-shadow:0 0 0 1px rgba(0,0,0,.5),0 30px 90px rgba(0,0,0,.7),0 0 60px var(--glow-soft);
+  animation:rise .9s var(--ease) both}
+@keyframes rise{from{opacity:0;transform:translateY(40px)}to{opacity:1;transform:none}}
+.m-bar{position:relative;height:42px;display:flex;align-items:center;gap:10px;padding:0 14px;background:rgba(8,16,34,.7);border-bottom:1px solid var(--line)}
+.m-bar canvas{position:absolute;inset:0;width:100%;height:100%;z-index:0}
+.m-bar>*{position:relative;z-index:1}
+.m-bar img{width:20px;height:20px;border-radius:4px;mix-blend-mode:screen;filter:drop-shadow(0 0 7px var(--glow))}
+.m-title{font-family:var(--f-ui);font-size:.5rem;letter-spacing:.2em;text-transform:uppercase;color:var(--fg2)}
+.m-title em{color:var(--fg);font-style:normal}
+.m-live{margin-left:auto;display:flex;align-items:center;gap:6px;font-family:var(--f-ui);font-size:.44rem;letter-spacing:.18em;color:var(--ok)}
+.m-live i{width:5px;height:5px;border-radius:50%;background:var(--ok);box-shadow:0 0 7px var(--ok);animation:blink 2s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.25}}
+.m-tools{display:flex;gap:5px;padding:8px 12px;background:rgba(8,15,32,.5);border-bottom:1px solid var(--line);flex-wrap:wrap}
+.chip{font-family:var(--f-mono);font-size:.7rem;color:var(--fg2);min-width:28px;height:26px;display:flex;align-items:center;justify-content:center;padding:0 8px;
+  border:1px solid var(--line);border-radius:5px;background:linear-gradient(160deg,rgba(125,170,235,.1),rgba(125,170,235,.02))}
+.chip.on{color:var(--blue2);border-color:var(--line2);box-shadow:0 0 12px var(--glow-soft)}
+.chip.o{color:var(--orange);border-color:rgba(255,153,0,.3)}
+.m-sheet{position:relative;min-height:280px;padding:46px 64px 60px;background:#000;text-align:left;
+  background-image:linear-gradient(rgba(0,150,255,.07) 50%,transparent 50%);background-size:100% 3px}
+.m-sheet::before,.m-sheet::after{content:'';position:absolute;top:0;bottom:0;width:1px;background:rgba(0,140,255,.22);box-shadow:0 0 4px rgba(0,140,255,.4)}
+.m-sheet::before{left:46px}.m-sheet::after{right:46px}
+.m-sheet h2{font-family:var(--f-ui);font-weight:900;text-transform:uppercase;font-size:1.15rem;color:#fff;letter-spacing:.03em;margin-bottom:14px;text-shadow:0 0 18px var(--glow-soft)}
+.m-sheet p{color:#cfe0ff;font-size:.96rem;text-shadow:0 0 7px var(--glow-soft);margin-bottom:11px;max-width:62ch}
+.m-sheet .err{color:var(--red);text-decoration:none;text-shadow:0 0 7px rgba(255,60,20,.9)}
+.m-caret{display:inline-block;width:.5em;height:1.05em;vertical-align:-2px;background:var(--blue2);box-shadow:0 0 9px var(--glow);animation:blink 1.1s steps(1) infinite}
+
+/* section headings */
+.shead{text-align:center;margin-bottom:54px}
+.shead .eyebrow{margin-bottom:14px}
+h2.sh{font-family:var(--f-ui);font-weight:900;text-transform:uppercase;font-size:clamp(1.7rem,4vw,2.7rem);letter-spacing:.01em;line-height:1.05}
+h2.sh em{color:var(--blue2);font-style:normal;text-shadow:0 0 20px var(--glow-soft)}
+.shead p{color:var(--fg2);max-width:560px;margin:14px auto 0}
+
+/* features */
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+@media(max-width:860px){.grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:560px){.grid{grid-template-columns:1fr}}
+.card{position:relative;padding:26px 24px;border-radius:8px;background:var(--glass);backdrop-filter:blur(16px);
+  border:1px solid var(--line);overflow:hidden;transition:.3s var(--ease)}
+.card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--blue2) 50%,transparent);opacity:.5}
+.card:hover{transform:translateY(-4px);border-color:var(--line2);box-shadow:0 0 30px var(--glow-soft)}
+.card .ic{width:42px;height:42px;border-radius:8px;display:flex;align-items:center;justify-content:center;margin-bottom:16px;
+  border:1px solid var(--line2);background:rgba(0,96,255,.08);color:var(--blue2)}
+.card .ic svg{width:21px;height:21px;stroke:currentColor;fill:none;stroke-width:1.7}
+.card h3{font-family:var(--f-ui);font-size:.82rem;letter-spacing:.06em;text-transform:uppercase;margin-bottom:9px;color:#fff}
+.card p{color:var(--fg2);font-size:.92rem}
+
+/* download band */
+.band{background:linear-gradient(180deg,rgba(0,40,120,.14),transparent);border-top:1px solid var(--line);border-bottom:1px solid var(--line);text-align:center}
+.reqs{display:flex;gap:26px;justify-content:center;flex-wrap:wrap;margin-top:26px;font-family:var(--f-ui);font-size:.5rem;letter-spacing:.16em;text-transform:uppercase;color:var(--fg3)}
+.reqs span{display:flex;align-items:center;gap:8px}
+.reqs b{color:var(--blue2)}
+
+/* support / donate */
+.donate{max-width:560px;margin:0 auto;text-align:center;padding:38px 30px;border-radius:12px;
+  background:var(--glass);backdrop-filter:blur(16px);border:1px solid var(--line2);box-shadow:0 0 40px var(--glow-soft)}
+.donate img.qr{width:172px;height:172px;margin:8px auto 18px;border-radius:10px;border:1px solid var(--line);background:#fff;padding:8px}
+.addr{display:flex;align-items:center;gap:8px;justify-content:center;flex-wrap:wrap;margin:0 auto;max-width:460px}
+.addr code{font-family:var(--f-mono);font-size:.78rem;color:var(--blue2);background:rgba(0,0,0,.5);border:1px solid var(--line);border-radius:6px;padding:9px 12px;word-break:break-all}
+.copy{font-family:var(--f-ui);font-size:.5rem;letter-spacing:.14em;text-transform:uppercase;color:var(--fg);border:1px solid var(--line2);border-radius:6px;padding:10px 13px;cursor:pointer;background:rgba(0,96,255,.08);transition:.2s;white-space:nowrap}
+.copy:hover{color:var(--blue2);box-shadow:0 0 14px var(--glow-soft)}
+.tag-usdt{font-family:var(--f-ui);font-size:.5rem;letter-spacing:.2em;text-transform:uppercase;color:#26a17b;margin-bottom:14px}
+.warn{font-size:.8rem;color:var(--fg3);margin-top:16px}
+
+/* faq */
+.faq{max-width:760px;margin:0 auto}
+.qa{border-bottom:1px solid var(--line);padding:20px 0}
+.qa h4{font-size:1.02rem;color:#fff;margin-bottom:8px;display:flex;gap:10px}
+.qa h4::before{content:'?';font-family:var(--f-ui);color:var(--blue2);font-weight:900}
+.qa p{color:var(--fg2);font-size:.94rem}
+
+/* footer */
+footer{border-top:1px solid var(--line);padding:38px 0;text-align:center;position:relative;z-index:2}
+footer .brand{justify-content:center;margin-bottom:14px}
+.flinks{display:flex;gap:18px;justify-content:center;flex-wrap:wrap;margin-bottom:16px}
+.flinks a{font-family:var(--f-ui);font-size:.55rem;letter-spacing:.16em;text-transform:uppercase;color:var(--fg2);transition:.2s}
+.flinks a:hover{color:var(--blue2)}
+.copyright{font-family:var(--f-ui);font-size:.5rem;letter-spacing:.16em;text-transform:uppercase;color:var(--fg3)}
+
+/* reveal */
+.reveal{opacity:0;transform:translateY(22px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
+.reveal.in{opacity:1;transform:none}
+
+/* toast */
+#toast{position:fixed;bottom:26px;left:50%;transform:translateX(-50%) translateY(16px);z-index:200;
+  background:var(--glass);backdrop-filter:blur(18px);border:1px solid var(--line2);border-radius:7px;padding:11px 20px;
+  font-family:var(--f-ui);font-size:.55rem;letter-spacing:.16em;text-transform:uppercase;color:var(--ok);
+  box-shadow:0 0 26px var(--glow-soft);opacity:0;pointer-events:none;transition:.3s var(--ease)}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+@media(prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+</style>
+</head>
+<body>
+<div id="bg"></div>
+<div class="wrap">
+
+<nav>
+  <a class="brand" href="#top"><img src="hayos-hs.jpg" alt="HAYOS logo">HAY<em>OS</em></a>
+  <div class="nlinks">
+    <a href="#features">Features</a>
+    <a href="#download">Download</a>
+    <a href="#support">Support</a>
+    <a class="cta" href="https://github.com/MVTender/HAYOS/releases/latest/download/HAYOS-Setup.exe">Get it free</a>
+  </div>
+</nav>
+
+<header class="hero con" id="top">
+  <img class="logo" src="hayos-hs.jpg" alt="HAYOS — free text editor logo">
+  <div class="eyebrow">Free · Lightweight · Offline</div>
+  <h1>HAY<span class="g">OS</span></h1>
+  <p class="lead">The text editor from the future — <strong>free, lightweight, beautiful.</strong></p>
+  <p class="sub">A neon sci-fi word processor for Windows. Write in a gorgeous interface, export to Word, PDF &amp; Markdown, and keep everything on your machine. No account, no ads, no cloud.</p>
+  <div class="hbtns">
+    <a class="btn btn-pri" href="https://github.com/MVTender/HAYOS/releases/latest/download/HAYOS-Setup.exe">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      Download for Windows
+    </a>
+    <a class="btn btn-sec" href="#support">♥ Support</a>
+  </div>
+  <div class="meta"><span><b>FREE</b> forever</span><span>·</span><span>Windows 10 / 11</span><span>·</span><span>v2.0.1190</span></div>
+  <a href="https://github.com/MVTender/HAYOS/releases"><img class="dlbadge" src="https://img.shields.io/github/downloads/MVTender/HAYOS/total?color=00cc66&label=downloads&style=flat-square" alt="Total downloads"></a>
+
+  <div class="mock" aria-hidden="true">
+    <div class="m-bar">
+      <canvas id="spark"></canvas>
+      <img src="hayos-hs.jpg" alt="">
+      <span class="m-title">HAYOS — <em>My Document.hys</em></span>
+      <span class="m-live"><i></i>AUTOSAVE</span>
+    </div>
+    <div class="m-tools">
+      <span class="chip">¶</span><span class="chip">H1</span><span class="chip on">B</span><span class="chip">I</span><span class="chip">U</span>
+      <span class="chip">≣</span><span class="chip">⊞</span><span class="chip o">PDF</span>
+    </div>
+    <div class="m-sheet">
+      <h2>Writing, reimagined.</h2>
+      <p>HAYOS turns plain text into something you actually want to look at — a deep-black page, a soft glow on every letter, and a calm CRT shimmer. It stays fast and out of your way.</p>
+      <p>Spell-check highlights mistakes like <span class="err">teh</span> right on the page, margins drag on the ruler, and your work autosaves as you type.<span class="m-caret"></span></p>
+    </div>
+  </div>
+</header>
+
+<section id="features">
+  <div class="con">
+    <div class="shead reveal">
+      <div class="eyebrow">Why HAYOS</div>
+      <h2 class="sh">Everything you need, <em>nothing you don't</em></h2>
+      <p>A real word processor with a look you'll love — and not a single ad, account or upsell.</p>
+    </div>
+    <div class="grid">
+      <div class="card reveal"><div class="ic"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></div><h3>Free forever</h3><p>No paywalls, no subscriptions, no trial timers. Download once, use it for life.</p></div>
+      <div class="card reveal"><div class="ic"><svg viewBox="0 0 24 24"><path d="M13 2 3 14h7l-1 8 10-12h-7z"/></svg></div><h3>Lightweight &amp; fast</h3><p>Opens instantly and runs on the WebView2 engine already built into Windows. Tiny download.</p></div>
+      <div class="card reveal"><div class="ic"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div><h3>Beautiful by design</h3><p>Sci-fi / CRT interface, typing glow, glassmorphism and Night / Minimal themes.</p></div>
+      <div class="card reveal"><div class="ic"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg></div><h3>Export anywhere</h3><p>Save to Word (.doc), RTF, Markdown, TXT, HTML — and print straight to PDF.</p></div>
+      <div class="card reveal"><div class="ic"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><h3>Fully offline &amp; private</h3><p>Your documents never leave your computer. No cloud, no telemetry, no tracking.</p></div>
+      <div class="card reveal"><div class="ic"><svg viewBox="0 0 24 24"><path d="m3 17 6-6 4 4 8-8"/><path d="M14 7h7v7"/></svg></div><h3>Real editing power</h3><p>Headings, tables, lists, links, images, spell-check, draggable margins, find &amp; replace, Zen mode.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="download" class="band">
+  <div class="con">
+    <div class="shead reveal">
+      <div class="eyebrow">Get HAYOS</div>
+      <h2 class="sh">Download <em>free</em> for Windows</h2>
+      <p>One click. No sign-up. No admin rights needed.</p>
+    </div>
+    <div class="reveal">
+      <a class="btn btn-pri" href="https://github.com/MVTender/HAYOS/releases/latest/download/HAYOS-Setup.exe">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Download HAYOS 2.0.1190
+      </a>
+      <div class="reqs">
+        <span><b>OS</b> Windows 10 / 11 (64-bit)</span>
+        <span><b>Engine</b> WebView2 (built in)</span>
+        <span><b>Price</b> Free</span>
+      </div>
+      <p style="margin-top:20px;color:var(--fg3);font-size:.85rem">Prefer the source? Everything lives on <a href="https://github.com/MVTender/HAYOS" style="color:var(--blue2)">GitHub</a>.</p>
+    </div>
+  </div>
+</section>
+
+<section id="support">
+  <div class="con">
+    <div class="shead reveal">
+      <div class="eyebrow">Support the project</div>
+      <h2 class="sh">Like it? <em>Buy me a coffee</em> ☕</h2>
+      <p>HAYOS is free and always will be. If it makes your writing better, a small tip keeps it growing. Completely optional — thank you. 🙏</p>
+    </div>
+    <div class="donate reveal">
+      <div class="tag-usdt">◆ USDT · ERC-20 · Ethereum</div>
+      <img class="qr" src="usdt-qr.png" alt="USDT (ERC-20) donation QR code">
+      <div class="addr">
+        <code id="addr">0x383e17ef178f9fd8fe19213e4db8e5f712510d50</code>
+        <button class="copy" onclick="copyAddr()">Copy</button>
+      </div>
+      <p class="warn">⚠ Send only USDT on the Ethereum (ERC-20) network to this address.</p>
+    </div>
+  </div>
+</section>
+
+<section id="faq">
+  <div class="con">
+    <div class="shead reveal">
+      <div class="eyebrow">FAQ</div>
+      <h2 class="sh">Good to <em>know</em></h2>
+    </div>
+    <div class="faq">
+      <div class="qa reveal"><h4>Is HAYOS really free?</h4><p>Yes — 100% free, forever. No ads, no account, no trial limits. Donations are optional.</p></div>
+      <div class="qa reveal"><h4>Where are my files stored?</h4><p>On your own computer, only. HAYOS works fully offline and never uploads anything.</p></div>
+      <div class="qa reveal"><h4>What formats can I open and save?</h4><p>Open .hys, .txt, .md, .html and .rtf. Save to the native .hys, or export to Word, RTF, Markdown, TXT, HTML and PDF.</p></div>
+      <div class="qa reveal"><h4>Is it safe to install?</h4><p>Yes. HAYOS is a lightweight launcher around your own files and the built-in Windows WebView2. The installer needs no admin rights. As it's a new indie app, Windows SmartScreen may show a notice — click “More info → Run anyway”.</p></div>
+      <div class="qa reveal"><h4>Does it work on Mac or Linux?</h4><p>Right now HAYOS is built for Windows 10 and 11. Other platforms may come later.</p></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="con">
+    <a class="brand" href="#top"><img src="hayos-hs.jpg" alt="">HAY<em>OS</em></a>
+    <div class="flinks">
+      <a href="https://github.com/MVTender/HAYOS">GitHub</a>
+      <a href="https://github.com/MVTender/HAYOS/releases/latest">Download</a>
+      <a href="https://github.com/MVTender/HAYOS/issues">Contact</a>
+      <a href="#support">Donate</a>
+    </div>
+    <div class="copyright">Made with ⚡ by Aram Tumanian · © 2026 HAYOS</div>
+  </div>
+</footer>
+
+</div>
+<div id="toast">Address copied ✓</div>
+
+<script>
+/* copy USDT address */
+function copyAddr(){
+  const t=document.getElementById('addr').textContent.trim();
+  const done=()=>{const e=document.getElementById('toast');e.classList.add('show');setTimeout(()=>e.classList.remove('show'),1600);};
+  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(done).catch(fallback);}
+  else fallback();
+  function fallback(){const ta=document.createElement('textarea');ta.value=t;document.body.appendChild(ta);ta.select();try{document.execCommand('copy');}catch(e){}ta.remove();done();}
+}
+/* reveal on scroll */
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}}),{threshold:.12});
+document.querySelectorAll('.reveal').forEach(e=>io.observe(e));
+/* electric line in the mockup title bar */
+(function(){
+  const cv=document.getElementById('spark'); if(!cv)return; const cx=cv.getContext('2d');
+  let W,H; function rs(){const r=cv.parentElement.getBoundingClientRect();W=cv.width=r.width;H=cv.height=r.height;}
+  let t=0,run=true; document.addEventListener('visibilitychange',()=>run=!document.hidden);
+  function frame(){ if(!run){requestAnimationFrame(frame);return;} t++;
+    cx.clearRect(0,0,W,H); const mid=H/2, amp=H*0.16;
+    cx.beginPath();
+    for(let x=0;x<=W;x+=5){const y=mid+Math.sin(x*0.03+t*0.06)*amp*0.6+Math.sin(x*0.07-t*0.09)*amp*0.4;x===0?cx.moveTo(x,y):cx.lineTo(x,y);}
+    cx.strokeStyle='rgba(0,140,255,0.5)';cx.lineWidth=1.1;cx.shadowBlur=8;cx.shadowColor='rgba(0,150,255,0.7)';cx.stroke();cx.shadowBlur=0;
+    requestAnimationFrame(frame);
+  }
+  addEventListener('resize',rs,{passive:true}); setTimeout(rs,50); rs(); frame();
+})();
+</script>
+</body>
+</html>

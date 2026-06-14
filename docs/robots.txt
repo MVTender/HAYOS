@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://mvtender.github.io/HAYOS/sitemap.xml
